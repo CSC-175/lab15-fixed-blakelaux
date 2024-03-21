@@ -8,24 +8,34 @@ void getInfo(int & pickFrom, int & numPicks) {
     std::cout << "How many balls (1-12) are in the pool to pick from? ";
     std::cin >> pickFrom;
     if (pickFrom > 12 || pickFrom < 1) {
-        std::cout << "Input Error\n! There must be between 1 and 12 balls";
+        std::cout << "Input Error! There must be between 1 and 12 balls.\n";
         std::cin.clear();
+        std::cout << "How many balls (1-12) are in the pool to pick from? ";
+        std::cin >> pickFrom;
     }
     if (std::cin.fail()) {
-        std::cout << "Input Error\n!";
+        std::cout << "Input Error!\n";
         std::cin.clear();
+        std::cin.ignore(100, '\n');
+        std::cout << "How many balls (1-7) will be drawn? ";
+        std::cin >> pickFrom;
     }
     std::cout << "How many balls (1-7) will be drawn? ";
     std::cin >> numPicks;
+
+    if (std::cin.fail()) {
+        std::cout << "Input Error!\n";
+        std::cin.clear();
+        std::cin.ignore(100, '\n');
+        std::cout << "How many balls (1-7) will be drawn? ";
+        std::cin >> numPicks;
+    }
     if (numPicks > 7 || numPicks < 1) {
         std::cout << "Input Error!\n";
         std::cin.clear();
+        std::cout << "How many balls (1-7) will be drawn? ";
+        std::cin >> numPicks;
     }
-    if (std::cin.fail()) {
-        std::cout << "Input Error\n!";
-        std::cin.clear();
-    }
-
 }
 
 /******************************************************************
@@ -39,17 +49,14 @@ void getInfo(int & pickFrom, int & numPicks) {
 // Note that the computation is done in a way that does not require
 // multiplying two factorials together. This is done to prevent any
 // intermediate result becoming so large that it causes overflow.
-double computeWays(int n, int k) {
-    double ways = (factorial(k) * factorial((n - k))) / factorial(n);
-}
-// This function computes factorials recursively. It is called by computeWays.
 double factorial(int n) {
     if (n == 0 || n == 1) {
         return 1;
     } else {
         return n * factorial((n - 1));
     }
-
-
 }
-
+double computeWays(int n, int k) {
+    double ways = (factorial(k) * factorial((n - k))) / factorial(n);
+    return ways;
+}
